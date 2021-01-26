@@ -34,7 +34,7 @@ export default {
     getData(component) {
       axios
         .get(
-          "https://crudcrud.com/api/58da884075c845edb74743a3e91a7a1c/messages"
+          "https://crudcrud.com/api/e4892fdf731d411395d4b3e3a24ba410/messages"
         )
         .then(function (response) {
           console.log("messages récupérés");

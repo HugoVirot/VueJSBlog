@@ -1,47 +1,63 @@
 <template>
-  <div v-for="message in messages" :key="message._id">
-    <div
-      class="card m-auto bg-secondary text-light p-5 m-3"
-      style="width: 70vw"
-    >
-      <div class="card-title">
-        <h2 class="mb-5">{{ message.titre }}</h2>
-        <h5>#{{ message.tags }}</h5>
-      </div>
-      <div class="card-img-top" v-if="typeof message.image !== 'undefined'">
-        <img style="width: 50vw" :src="message.image" alt="imageDuMessage" />
-      </div>
-      <div class="card-body">
-        <p>
-          <b>{{ message.pseudo }}</b> ({{ message.ville }}, {{ message.pays }})
-        </p>
-        <p class="bg-light text-secondary p-5">"{{ message.texteMessage }}"</p>
-        <p>
-          posté le :
-          {{ moment(message.date).format("DD.MM.YYYY [&nbsp;] HH:mm") }}
-        </p>
-      </div>
-      
-      <div class="row justify-content-around d-flex">
-        <button class="btn btn-danger" v-on:click="deleteMessage(message._id)">
-          Supprimer<i class="fas fa-trash fa-2x"></i>
-        </button>
-        <!-- <router-link to="/editMessage/:id">
-          <button class="btn btn-info">
-            Modifier<i class="fas fa-edit fa-2x"></i>
+  <div v-if="$route.path == '/'">
+    <div v-for="message in messages" :key="message._id">
+      <div
+        class="card m-auto bg-secondary text-light p-5 m-3"
+        style="width: 70vw"
+      >
+        <div class="card-title">
+          <h2 class="mb-5">{{ message.titre }}</h2>
+          <h5>#{{ message.tags }}</h5>
+        </div>
+
+        <div class="card-img-top" v-if="typeof message.image !== 'undefined'">
+          <img style="width: 50vw" :src="message.image" alt="imageDuMessage" />
+        </div>
+
+        <div class="card-body">
+          <p>
+            <b>{{ message.pseudo }}</b> ({{ message.ville }},
+            {{ message.pays }})
+          </p>
+          <p class="bg-light text-secondary p-5">
+            "{{ message.texteMessage }}"
+          </p>
+          <p>
+            posté le :
+            {{ moment(message.date).format("DD.MM.YYYY [&nbsp;] HH:mm") }}
+          </p>
+        </div>
+
+        <div class="row justify-content-around d-flex">
+          <button
+            class="btn btn-danger"
+            v-on:click="deleteMessage(message._id)"
+          >
+            Supprimer<i class="fas fa-trash fa-2x"></i>
           </button>
-        </router-link> -->
-        <button class="btn btn-info" @click="showEditForm = !showEditForm">
+          <!-- 
+        <button class="btn btn-info" @click="showEditForm(message._id)">
           Modifier<i class="fas fa-edit fa-2x"></i>
         </button>
-      </div>
-      <!-- <div v-if="$route.path !== '/'">
-        <router-view></router-view>
       </div> -->
 
-      <div v-if="showEditForm">
-            <form class="container w-50 pb-3 border border-info mb-5 mt-5" id="editForm" @submit="checkEditForm" method="put">
+          <router-link :to="`/EditMessage/${message._id}`">
+            <!-- <router-link :to="'EditMessage/' + message._id"> -->
+            <button class="btn btn-info">
+              Modifier<i class="fas fa-edit fa-2x"></i>
+            </button>
+          </router-link>
+        </div>
+      </div>
+    </div>
 
+    <!-- <form class="container w-50 pb-3 border border-info mb-5 mt-5" 
+            :id="'editForm' + message._id" @submit="checkEditForm"
+            style="display: none" 
+            method="put"> -->
+
+    <!-- formulaire modif message -->
+    <!-- 
             <h2 class="p-3 pb-5">Modifier un message </h2>
 
             <p v-if="errors.length" class="text-danger">
@@ -53,8 +69,8 @@
 
             <input type="hidden" name="id" v-model="message.id">
             <div class="row justify-content-around p-2">
-              <label for="title">Titre</label>
-              <input id="title" v-model="message.titre" type="text" name="title" />
+              <label for="message.titre">Titre</label>
+              <input id="message.titre" v-model="message.titre" type="text" name="message.titre" />
             </div>
 
             <div class="row justify-content-around p-2">
@@ -94,8 +110,8 @@
             <p>
               <input type="submit" value="Envoyer" class="mt-5 m-3 pr-4 pl-4" />
             </p>
-          </form>
-        <!-- <EditMessage
+          </form> -->
+    <!-- <EditMessage
           v-model:_id="message._id"
           v-model:titre="message.titre"
           v-model:pseudo="message.pseudo"
@@ -105,24 +121,28 @@
           v-model:image="message.image"
           v-model:tags="message.tags"
         /> -->
-      </div>
-    </div>
+  </div>
+  <div v-else>
+    <router-view :key="$route.fullPath"></router-view>
   </div>
 </template>
 
 <script>
 import moment from "moment";
 import axios from "axios";
+// import EditMessage from "./EditMessage.vue"
 
 export default {
   name: "MessagesList",
+  // components: {
+  //   EditMessage
+  // },
   props: ["messages"],
   created: function () {
     this.moment = moment;
   },
   data() {
     return {
-      showEditForm: false,
       errors: [],
       titre: null,
       pseudo: null,
@@ -134,11 +154,20 @@ export default {
     };
   },
   methods: {
+    showEditForm(messageID) {
+      let formName = "editForm" + messageID;
+      let form = document.getElementById(formName);
+      if (form.style.display == "none") {
+        form.style.display = "block";
+      } else {
+        form.style.display = "none";
+      }
+    },
     deleteMessage(messageId) {
       console.log(messageId);
       axios
         .delete(
-          "https://crudcrud.com/api/58da884075c845edb74743a3e91a7a1c/messages/" +
+          "https://crudcrud.com/api/e4892fdf731d411395d4b3e3a24ba410/messages/" +
             messageId
         )
         .then(() => {
@@ -195,6 +224,7 @@ export default {
       //   tags: this.message.tags,
       //   date: new Date(),
       // };
+      console.log("message après modif");
       let message = {
         id: this.id,
         titre: this.titre,
@@ -209,7 +239,7 @@ export default {
       console.log(message);
       axios
         .put(
-          "https://crudcrud.com/api/58da884075c845edb74743a3e91a7a1c/messages/" +
+          "https://crudcrud.com/api/e4892fdf731d411395d4b3e3a24ba410/messages/" +
             this.id,
           message
         )

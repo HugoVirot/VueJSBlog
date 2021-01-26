@@ -9,7 +9,7 @@ const routes = [
     component: App,
   },
   {
-    path: "/editMessage/:id",
+    path: "/EditMessage/:id",
     name: "EditMessage",
     component: EditMessage,
   },
