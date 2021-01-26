@@ -1,5 +1,6 @@
 <template>
-  <form id="form" @submit="checkForm" method="post">
+  <form class="container w-25 pb-3 border border-info mb-5" id="form" @submit="checkForm" method="post">
+    <h2 class="p-3 pb-5">C'est par ici ! </h2>
     <p v-if="errors.length" class="text-danger">
     <b>Merci de corriger les erreurs suivantes</b>
     <ul>
@@ -7,48 +8,47 @@
     </ul>
   </p>
 
-    <p>
+    <div class="row justify-content-around p-2">
       <label for="title">Titre</label>
       <input id="title" v-model="titre" type="text" name="title" />
-    </p>
+    </div>
 
-    <p>
+    <div class="row justify-content-around p-2">
       <label for="pseudo">Pseudo</label>
       <input id="pseudo" v-model="pseudo" type="text" name="pseudo" />
-    </p>
+    </div>
 
-    <p>
+    <div class="row justify-content-around p-2">
       <label for="ville">Ville</label>
       <input id="ville" v-model="ville" type="text" name="ville" />
-    </p>
+    </div>
 
-    <p>
+    <div class="row justify-content-around p-2">
       <label for="pays">Pays</label>
       <input id="pays" v-model="pays" type="text" name="pays" />
-    </p>
+    </div>
 
-    <p>
+    <div class="row justify-content-around p-2">
       <label for="texteMessage">Message</label>
-      <input
+      <textarea
         id="texteMessage"
         v-model="texteMessage"
-        type="text"
         name="texteMessage"
       />
-    </p>
+    </div>
 
-    <p>
+    <div class="row justify-content-around p-2">
       <label for="image">Image</label>
       <input id="image" v-model="image" type="text" name="image" />
-    </p>
+    </div>
 
-    <p>
+    <div class="row justify-content-around p-2">
       <label for="tags">Tags</label>
       <input id="tags" v-model="tags" type="text" name="tags" />
-    </p>
+    </div>
 
     <p>
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Envoyer" class="mt-5 m-3 pr-4 pl-4" />
     </p>
   </form>
 </template>
@@ -122,7 +122,7 @@ export default {
       console.log(message);
       axios
         .post(
-          "https://crudcrud.com/api/37d381a0c645446688a381bb70ccf87d/messages",
+          "https://crudcrud.com/api/58da884075c845edb74743a3e91a7a1c/messages",
           message
         )
         .then(() => {

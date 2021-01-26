@@ -7,12 +7,14 @@
   />
   <Form/>
   <MessagesList :messages="messages" />
+  <Footer/>
 </template>
 
 <script>
 import Header from "./components/Header.vue";
 import Form from "./components/Form.vue";
 import MessagesList from "./components/MessagesList.vue";
+import Footer from "./components/Footer.vue";
 import axios from "axios";
 
 export default {
@@ -26,12 +28,13 @@ export default {
     Header,
     Form,
     MessagesList,
+    Footer
   },
   methods: {
     getData(component) {
       axios
         .get(
-          "https://crudcrud.com/api/37d381a0c645446688a381bb70ccf87d/messages"
+          "https://crudcrud.com/api/58da884075c845edb74743a3e91a7a1c/messages"
         )
         .then(function (response) {
           console.log("messages récupérés");
