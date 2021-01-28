@@ -1,13 +1,13 @@
 <template>
-<Header />
+  <Header />
   <img
     class="w-50 m-5"
     alt="headerimage"
     src="./assets/learn-web-development.jpg"
   />
-  <Form/>
+  <Form />
   <MessagesList :messages="messages" />
-  <Footer/>
+  <Footer />
 </template>
 
 <script>
@@ -28,17 +28,17 @@ export default {
     Header,
     Form,
     MessagesList,
-    Footer
+    Footer,
   },
   methods: {
     getData(component) {
       axios
         .get(
-          "https://crudcrud.com/api/e4892fdf731d411395d4b3e3a24ba410/messages"
+          "https://crudcrud.com/api/27252097f58b4e0dba92c753a9e2b7ba/messages"
         )
         .then(function (response) {
           console.log("messages récupérés");
-          component.messages = response.data;
+          component.messages = response.data.reverse();
           console.log(component.messages);
         })
         .catch(console.log("échec récupération messages"));
@@ -52,7 +52,7 @@ export default {
 
 <style>
 #app {
-  font-family: 'Courier New', Courier, monospace, Arial;
+  font-family: "Courier New", Courier, monospace, Arial;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

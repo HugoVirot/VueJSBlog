@@ -1,10 +1,14 @@
 <template>
 <div>        
     <form class="container w-50 pb-3 border border-info mb-5 mt-5" 
-            :id="'editForm' + message._id" @submit="checkEditForm"
+            @submit="checkEditForm"
             method="put">
 
-            <h2 class="p-3 pb-5">Modifier un message </h2>
+            <h2 class="p-3 pb-2">Modifier un message </h2>
+
+          <router-link to="/">
+          <button class="btn btn-warning mb-4">Annuler la modification</button>
+          </router-link>
 
             <p v-if="errors.length" class="text-danger">
             <b>Merci de corriger les erreurs suivantes</b>
@@ -17,21 +21,6 @@
             <div class="row justify-content-around p-2">
               <label for="titre">Titre</label>
               <input id="titre" v-model="titre" type="text" name="titre" />
-            </div>
-
-            <div class="row justify-content-around p-2">
-              <label for="pseudo">Pseudo</label>
-              <input id="pseudo" v-model="pseudo" type="text" name="pseudo" />
-            </div>
-
-            <div class="row justify-content-around p-2">
-              <label for="ville">Ville</label>
-              <input id="ville" v-model="ville" type="text" name="ville" />
-            </div>
-
-            <div class="row justify-content-around p-2">
-              <label for="pays">Pays</label>
-              <input id="pays" v-model="pays" type="text" name="pays" />
             </div>
 
             <div class="row justify-content-around p-2">
@@ -85,7 +74,7 @@ export default {
     getMessage(component) {
       axios
         .get(
-          "https://crudcrud.com/api/e4892fdf731d411395d4b3e3a24ba410/messages/" +
+          "https://crudcrud.com/api/27252097f58b4e0dba92c753a9e2b7ba/messages/" +
             component.id
         )
         .then(function (response) {
@@ -105,7 +94,22 @@ export default {
 
     checkEditForm: function (e) {
       e.preventDefault();
-      this.updateMessage();
+
+      if (this.titre && this.texteMessage && this.tags) {
+        this.updateMessage();
+      }
+
+      this.errors = [];
+
+      if (!this.titre) {
+        this.errors.push("Titre requis!");
+      }
+      if (!this.texteMessage) {
+        this.errors.push("Message requis.");
+      }
+      if (!this.tags) {
+        this.errors.push("Tags requis.");
+      }
     },
 
     updateMessage() {
@@ -120,15 +124,15 @@ export default {
         date: new Date(),
       };
       console.log("message après modifs :" + message);
-
       axios
         .put(
-          "https://crudcrud.com/api/e4892fdf731d411395d4b3e3a24ba410/messages/" + this.id,
+          "https://crudcrud.com/api/27252097f58b4e0dba92c753a9e2b7ba/messages/" +
+            this.id,
           message
         )
         .then(() => {
           alert("message modifié avec succès !");
-        this.$router.push({ name: 'Home' })
+          window.location.href = "http://localhost:8080/";
         })
         .catch(console.log("échec de l'envoi"));
     },
