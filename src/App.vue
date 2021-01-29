@@ -1,5 +1,6 @@
 <template>
   <Header />
+  <NavBar />
   <img
     class="w-50 m-5"
     alt="headerimage"
@@ -11,6 +12,7 @@
 </template>
 
 <script>
+import NavBar from "./components/NavBar.vue";
 import Header from "./components/Header.vue";
 import Form from "./components/Form.vue";
 import MessagesList from "./components/MessagesList.vue";
@@ -25,6 +27,7 @@ export default {
     };
   },
   components: {
+    NavBar,
     Header,
     Form,
     MessagesList,
